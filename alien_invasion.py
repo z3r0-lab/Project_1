@@ -20,6 +20,7 @@ class AlienInvasion:
         pygame.display.set_caption("Alien Invasion")
 
         self.ship = Ship(self)
+        self.bullets = pygame.sprite.Group()
 
         #Назначение цвета фона.
         self.bg_color = (230, 230, 230)
@@ -29,8 +30,13 @@ class AlienInvasion:
         while True:
             self._check_events()
             self.ship.update()
-            self.bullet.update()
+            self.bullets.update()
             self._update_screen()
+
+            # Удаление снарядов, вышедших за край экрана
+            for bullet in self.bullets.copy():
+                if bullet.rect.bottom <= 0:
+                    self.bullets.remove(bullet)
     
     def _check_events(self):
         """Обрабатывает нажатия клавиш и события мыши."""
